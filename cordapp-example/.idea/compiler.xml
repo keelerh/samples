@@ -16,6 +16,11 @@
       <module name="com.example.workflows-kotlin.integrationTest" target="1.8" />
       <module name="com.example.workflows-kotlin.main" target="1.8" />
       <module name="com.example.workflows-kotlin.test" target="1.8" />
+      <module name="cordapp-example.contracts-java.main" target="1.8" />
+      <module name="cordapp-example.contracts-java.test" target="1.8" />
+      <module name="cordapp-example.workflows-java.integrationTest" target="1.8" />
+      <module name="cordapp-example.workflows-java.main" target="1.8" />
+      <module name="cordapp-example.workflows-java.test" target="1.8" />
       <module name="java-source_integrationTest" target="1.8" />
       <module name="java-source_main" target="1.8" />
       <module name="java-source_test" target="1.8" />
