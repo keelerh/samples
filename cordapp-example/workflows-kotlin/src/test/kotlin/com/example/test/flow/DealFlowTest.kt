@@ -2,6 +2,8 @@ package com.example.test.flow
 
 import com.example.flow.DealFlow
 import com.example.state.Card
+import com.example.state.CardState
+import net.corda.core.node.services.queryBy
 import net.corda.core.contracts.TransactionVerificationException
 import net.corda.core.utilities.getOrThrow
 import net.corda.testing.core.singleIdentity
@@ -12,6 +14,8 @@ import net.corda.testing.node.TestCordapp
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
+
 import kotlin.test.assertFailsWith
 
 class DealFlowTest {
@@ -61,6 +65,11 @@ class DealFlowTest {
         signedTxs[1].verifySignaturesExcept(playerA.info.singleIdentity().owningKey)
         signedTxs[2].verifySignaturesExcept(playerB.info.singleIdentity().owningKey)
         signedTxs[3].verifySignaturesExcept(playerB.info.singleIdentity().owningKey)
+
+        val cardsB = playerB.services.vaultService.queryBy<CardState>().states
+        assertEquals(2, cardsB.size)
+        assertEquals(cardsB[0].state.data.card.suit, "D")
+
     }
 
 //    @Test

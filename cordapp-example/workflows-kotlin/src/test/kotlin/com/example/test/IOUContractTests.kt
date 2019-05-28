@@ -1,4 +1,4 @@
-package com.example.test.contract
+package com.example.test
 
 import com.example.contract.IOUContract
 import com.example.state.IOUState
