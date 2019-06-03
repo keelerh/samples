@@ -1,8 +1,7 @@
 package com.example.test.flow
 
-import com.example.flow.DealFlow
-import com.example.state.Card
-import net.corda.core.contracts.TransactionVerificationException
+import com.example.flow.CreateGameFlow
+import com.example.state.GameState
 import net.corda.core.utilities.getOrThrow
 import net.corda.testing.core.singleIdentity
 import net.corda.testing.node.MockNetwork
@@ -12,9 +11,9 @@ import net.corda.testing.node.TestCordapp
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertFailsWith
+import kotlin.test.assertEquals
 
-class DealFlowTest {
+class CreateGameFlowTest {
     private lateinit var network: MockNetwork
     private lateinit var dealer: StartedMockNode
     private lateinit var playerA: StartedMockNode
@@ -30,7 +29,7 @@ class DealFlowTest {
         playerA = network.createPartyNode()
         playerB = network.createPartyNode()
         // For real nodes this happens automatically, but we have to manually register the flow for tests.
-        listOf(dealer, playerA, playerB).forEach { it.registerInitiatedFlow(DealFlow.Acceptor::class.java) }
+        listOf(dealer, playerA, playerB).forEach { it.registerInitiatedFlow(CreateGameFlow.Acceptor::class.java) }
         network.runNetwork()
     }
 
@@ -51,16 +50,17 @@ class DealFlowTest {
 
     @Test
     fun `SignedTransaction returned by the flow is signed by the initiator`() {
-        val flow = DealFlow.Initiator(
-                listOf(Card("H", "5"), Card("S", "A"), Card("D", "2"), Card("S", "9")), listOf(playerA.info.singleIdentity(), playerB.info.singleIdentity()), 1)
+        val flow = CreateGameFlow.Initiator(
+            listOf(playerA.info.singleIdentity(), playerB.info.singleIdentity())
+        )
         val future = dealer.startFlow(flow)
         network.runNetwork()
 
-        val signedTxs = future.getOrThrow()
-        signedTxs[0].verifySignaturesExcept(playerA.info.singleIdentity().owningKey)
-        signedTxs[1].verifySignaturesExcept(playerA.info.singleIdentity().owningKey)
-        signedTxs[2].verifySignaturesExcept(playerB.info.singleIdentity().owningKey)
-        signedTxs[3].verifySignaturesExcept(playerB.info.singleIdentity().owningKey)
+        val signedTx = future.getOrThrow()
+        signedTx.verifyRequiredSignatures()
+        val state = signedTx.coreTransaction.outputs[0].data as GameState
+        assertEquals(0, state.communityCards.size)
+        assertEquals(0, state.cardsRevealedByPlayer.size)
     }
 
 //    @Test
