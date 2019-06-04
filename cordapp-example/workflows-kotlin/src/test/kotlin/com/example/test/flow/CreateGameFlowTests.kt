@@ -13,7 +13,18 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class CreateGameFlowTest {
+class CreateGameFlowTests {
+//    companion object {
+//        @JvmStatic val INVALID_CARDS = listOf(
+//                Card("X", "99"))
+//        @JvmStatic val VALID_CARDS = listOf(
+//                Card("H", "5"),
+//                Card("S", "A"),
+//                Card("D", "2"),
+//                Card("S", "9"))
+//        @JvmStatic val TEST_GAME_ID = 1
+//    }
+
     private lateinit var network: MockNetwork
     private lateinit var dealer: StartedMockNode
     private lateinit var playerA: StartedMockNode
@@ -28,7 +39,6 @@ class CreateGameFlowTest {
         dealer = network.createPartyNode()
         playerA = network.createPartyNode()
         playerB = network.createPartyNode()
-        // For real nodes this happens automatically, but we have to manually register the flow for tests.
         listOf(dealer, playerA, playerB).forEach { it.registerInitiatedFlow(CreateGameFlow.Acceptor::class.java) }
         network.runNetwork()
     }
@@ -40,7 +50,7 @@ class CreateGameFlowTest {
 
 //    @Test
 //    fun `flow rejects invalid IOUs`() {
-//        val flow = DealFlow.Initiator(-1, b.info.singleIdentity())
+//        val flow = DealFlow.Dealer(-1, b.info.singleIdentity())
 //        val future = a.startFlow(flow)
 //        network.runNetwork()
 //
@@ -50,7 +60,7 @@ class CreateGameFlowTest {
 
     @Test
     fun `SignedTransaction returned by the flow is signed by the initiator`() {
-        val flow = CreateGameFlow.Initiator(
+        val flow = CreateGameFlow.Dealer(
             listOf(playerA.info.singleIdentity(), playerB.info.singleIdentity())
         )
         val future = dealer.startFlow(flow)
@@ -65,7 +75,7 @@ class CreateGameFlowTest {
 
 //    @Test
 //    fun `SignedTransaction returned by the flow is signed by the acceptor`() {
-//        val flow = DealFlow.Initiator(1, b.info.singleIdentity())
+//        val flow = DealFlow.Dealer(1, b.info.singleIdentity())
 //        val future = a.startFlow(flow)
 //        network.runNetwork()
 //
@@ -75,7 +85,7 @@ class CreateGameFlowTest {
 //
 //    @Test
 //    fun `flow records a transaction in both parties' transaction storages`() {
-//        val flow = ExampleFlow.Initiator(1, b.info.singleIdentity())
+//        val flow = ExampleFlow.Dealer(1, b.info.singleIdentity())
 //        val future = a.startFlow(flow)
 //        network.runNetwork()
 //        val signedTx = future.getOrThrow()
@@ -89,7 +99,7 @@ class CreateGameFlowTest {
 //    @Test
 //    fun `recorded transaction has no inputs and a single output, the input IOU`() {
 //        val iouValue = 1
-//        val flow = ExampleFlow.Initiator(iouValue, b.info.singleIdentity())
+//        val flow = ExampleFlow.Dealer(iouValue, b.info.singleIdentity())
 //        val future = a.startFlow(flow)
 //        network.runNetwork()
 //        val signedTx = future.getOrThrow()
@@ -110,7 +120,7 @@ class CreateGameFlowTest {
 //    @Test
 //    fun `flow records the correct IOU in both parties' vaults`() {
 //        val iouValue = 1
-//        val flow = ExampleFlow.Initiator(1, b.info.singleIdentity())
+//        val flow = ExampleFlow.Dealer(1, b.info.singleIdentity())
 //        val future = a.startFlow(flow)
 //        network.runNetwork()
 //        future.getOrThrow()

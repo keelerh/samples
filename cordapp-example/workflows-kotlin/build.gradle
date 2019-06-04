@@ -78,10 +78,10 @@ task deployNodes(type: Cordform, dependsOn: ['jar']) {
     node {
         name "O=Notary,L=London,C=GB"
         notary = [validating : false]
-        p2pPort 10000
+        p2pPort 20000
         rpcSettings {
-            address("localhost:10001")
-            adminAddress("localhost:10002")
+            address("localhost:20001")
+            adminAddress("localhost:20002")
         }
         projectCordapp {
             deploy = false
