@@ -104,7 +104,6 @@ object DealFlow {
                     "This must be a Deal transaction." using (output is CardState)
                     val cardState = output as CardState
                     logger.info("Player {} received card {}.", otherPartySession, cardState.card)
-                    "I won't accept invalid cards." using (cardState.card.isValid())
                 }
             }
             val txId = subFlow(signTransactionFlow).id

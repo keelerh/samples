@@ -17,7 +17,7 @@ class CreateGameFlowTests {
 //    companion object {
 //        @JvmStatic val INVALID_CARDS = listOf(
 //                Card("X", "99"))
-//        @JvmStatic val VALID_CARDS = listOf(
+//        @JvmStatic val TEST_CARDS = listOf(
 //                Card("H", "5"),
 //                Card("S", "A"),
 //                Card("D", "2"),
@@ -39,7 +39,7 @@ class CreateGameFlowTests {
         dealer = network.createPartyNode()
         playerA = network.createPartyNode()
         playerB = network.createPartyNode()
-        listOf(dealer, playerA, playerB).forEach { it.registerInitiatedFlow(CreateGameFlow.Acceptor::class.java) }
+        listOf(dealer, playerA, playerB).forEach { it.registerInitiatedFlow(CreateGameFlow.Player::class.java) }
         network.runNetwork()
     }
 

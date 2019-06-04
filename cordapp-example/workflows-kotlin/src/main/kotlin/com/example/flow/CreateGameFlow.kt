@@ -2,7 +2,7 @@ package com.example.flow
 
 import co.paralleluniverse.fibers.Suspendable
 import com.example.contract.GameContract
-import com.example.flow.CreateGameFlow.Acceptor
+import com.example.flow.CreateGameFlow.Player
 import com.example.flow.CreateGameFlow.Dealer
 import com.example.flow.helpers.ProgressTracker
 import com.example.flow.helpers.ProgressTracker.tracker
@@ -16,15 +16,11 @@ import net.corda.core.transactions.TransactionBuilder
 import java.util.*
 
 /**
- * This flow allows two parties (the [Dealer] and the [Acceptor]) to come to an agreement about the IOU encapsulated
- * within an [IOUState].
+ * This flow allows parties in a poker game (the [Dealer] and some number of [Player]s) to
+ * come to an agreement about a poke game encapsulated within a [GameState].
  *
- * In our simple example, the [Acceptor] always accepts a valid IOU.
- *
- * These flows have deliberately been implemented by using only the call() method for ease of understanding. In
- * practice we would recommend splitting up the various stages of the flow into sub-routines.
- *
- * All methods called within the [FlowLogic] sub-class need to be annotated with the @Suspendable annotation.
+ * NOTE: All methods called within the [FlowLogic] sub-class need to be annotated with the
+ * @Suspendable annotation.
  */
 object CreateGameFlow {
     @InitiatingFlow
@@ -81,7 +77,7 @@ object CreateGameFlow {
             // Stage 5.
             progressTracker.currentStep = ProgressTracker.FINALISING_TRANSACTION
 
-            logger.info("Initiating game {}", gameState.gameId)
+            logger.info("Initiating game {}.", gameState.gameId)
 
             // Notarise and record the transaction in both parties' vaults.
             return subFlow(FinalityFlow(
@@ -92,20 +88,20 @@ object CreateGameFlow {
     }
 
     @InitiatedBy(Dealer::class)
-    class Acceptor(val otherPartySession: FlowSession) : FlowLogic<SignedTransaction>() {
+    class Player(val playerSession: FlowSession) : FlowLogic<SignedTransaction>() {
         @Suspendable
         override fun call(): SignedTransaction {
-            val signTransactionFlow = object : SignTransactionFlow(otherPartySession) {
+            val signTransactionFlow = object : SignTransactionFlow(playerSession) {
                 override fun checkTransaction(stx: SignedTransaction) = requireThat {
                     val output = stx.tx.outputs.single().data
-                    "This must be a create state transaction." using (output is GameState)
+                    "This must be a CreateGame transaction." using (output is GameState)
                     val gameState = output as GameState
-                    logger.info("Player {} received game state {}.", otherPartySession, gameState)
+                    logger.info("Player {} received game state {}.", playerSession, gameState)
                 }
             }
             val txId = subFlow(signTransactionFlow).id
 
-            return subFlow(ReceiveFinalityFlow(otherPartySession, expectedTxId = txId))
+            return subFlow(ReceiveFinalityFlow(playerSession, expectedTxId = txId))
         }
     }
 }

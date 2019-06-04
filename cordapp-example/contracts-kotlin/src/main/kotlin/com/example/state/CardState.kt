@@ -7,8 +7,6 @@ import net.corda.core.identity.AbstractParty
 import net.corda.core.identity.Party
 import net.corda.core.serialization.CordaSerializable
 
-/**
- */
 @BelongsToContract(CardContract::class)
 data class CardState(val card: Card,
                      val dealer: Party,
@@ -19,8 +17,20 @@ data class CardState(val card: Card,
 }
 
 @CordaSerializable
-data class Card(val suit: String, val value: String) {
-    fun isValid(): Boolean {
-        return true
+data class Card(val suit: Suit, val rank: Rank) {
+
+    @CordaSerializable
+    enum class Suit {
+        CLUBS, DIAMONDS, HEARTS, SPADES
+    }
+
+    @CordaSerializable
+    enum class Rank {
+        ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
+        EIGHT, NINE, TEN, JACK, QUEEN, KING
+    }
+
+    override fun toString(): String {
+        return "Card: $rank of $suit"
     }
 }

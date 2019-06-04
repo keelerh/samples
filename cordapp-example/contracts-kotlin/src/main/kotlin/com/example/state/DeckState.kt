@@ -1,5 +1,20 @@
 package com.example.state
 
-import net.corda.core.identity.Party
+class Deck {
+    var cards: MutableList<Card> = mutableListOf()
 
-data class DeckState (val cards: List<Card>, val dealer: Party)
+    init {
+        for (suit in Card.Suit.values())
+            for (rank in Card.Rank.values())
+                cards.add(Card(suit, rank))
+    }
+
+    fun shuffle() = cards.shuffle()
+
+    fun dealOneCard(): Card? {
+        return if (cards.isNotEmpty())
+            cards.removeAt(0)
+        else
+            null
+    }
+}

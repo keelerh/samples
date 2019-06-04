@@ -38,7 +38,7 @@ Deal cards:
 
 ```
 # Initiate from the Dealer node
-$ start com.example.flow.DealFlow$Dealer cards: [{ suit: H, value: "5" }, { suit: "D", value: "5" }, { suit: "H", value: "Q" }, { suit: "S", value: "A" }], players: [PlayerA, PlayerB], gameId: 123605233
+$ start com.example.flow.DealFlow$Dealer cards: [{ suit: H, rank: "5" }, { suit: "D", rank: "5" }, { suit: "H", rank: "Q" }, { suit: "S", rank: "A" }], players: [PlayerA, PlayerB], gameId: 123605233
 # Each of the two nodes should be able to see the 2 cards dealt to them
 $ run vaultQuery contractStateType: com.example.state.CardState
 ```

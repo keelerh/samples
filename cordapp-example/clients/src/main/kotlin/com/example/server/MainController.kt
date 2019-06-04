@@ -81,9 +81,9 @@ class MainController(rpc: NodeRPCConnection) {
         val cardSuit = request.getParameter("cardSuit")
                 ?: return ResponseEntity.badRequest().body(
                         "Query parameter 'cardSuit' must not be null.\n")
-        val cardValue = request.getParameter("cardValue")
+        val cardRank = request.getParameter("cardRank")
                 ?: return ResponseEntity.badRequest().body(
-                        "Query parameter 'cardValue' must not be null.\n")
+                        "Query parameter 'cardRank' must not be null.\n")
         val playerName = request.getParameter("playerName")
                 ?: return ResponseEntity.badRequest().body(
                         "Query parameter 'playerName' must not be null.\n")
@@ -99,7 +99,7 @@ class MainController(rpc: NodeRPCConnection) {
 
         return try {
             val signedTxs = proxy.startTrackedFlow(
-                    ::Dealer, listOf(Card(cardSuit, cardValue)), listOf(player), gameId)
+                    ::Dealer, listOf(Card(Card.Suit.valueOf(cardSuit), Card.Rank.valueOf(cardRank))), listOf(player), gameId)
                     .returnValue.getOrThrow()
             ResponseEntity.status(HttpStatus.CREATED).body(
                     "Transaction id ${signedTxs[0].id} committed to ledger.\n")
