@@ -15,13 +15,13 @@ fun main(args: Array<String>) {
     driver(DriverParameters(waitForAllNodesToFinish = true)) {
         val nodeFutures = listOf(
                 startNode(
-                        providedName = CordaX500Name("PartyA", "London", "GB"),
+                        providedName = CordaX500Name("Dealer", "London", "GB"),
                         rpcUsers = listOf(user)),
                 startNode(
-                        providedName = CordaX500Name("PartyB", "New York", "US"),
+                        providedName = CordaX500Name("PlayerA", "New York", "US"),
                         rpcUsers = listOf(user)),
                 startNode(
-                        providedName = CordaX500Name("PartyC", "Paris", "FR"),
+                        providedName = CordaX500Name("PlayerB", "Paris", "FR"),
                         rpcUsers = listOf(user)))
 
         nodeFutures.map { it.getOrThrow() }

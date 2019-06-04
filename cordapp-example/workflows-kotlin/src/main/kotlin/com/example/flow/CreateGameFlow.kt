@@ -100,7 +100,7 @@ object CreateGameFlow {
                     val output = stx.tx.outputs.single().data
                     "This must be a create state transaction." using (output is GameState)
                     val gameState = output as GameState
-                    logger.warn("Player {} received game state {}.", otherPartySession, gameState)
+                    logger.info("Player {} received game state {}.", otherPartySession, gameState)
                 }
             }
             val txId = subFlow(signTransactionFlow).id
