@@ -21,7 +21,7 @@ app.get('/test', (req, res) => {
 
   console.log(util.inspect(braid))
   console.log(util.inspect(req.body))
-
+  const partyName = ""
   const cards = [{suit:"SPKIKE", rank: "ACE"}];
 
   braid.flows.TestFlow(cards, partyName)
