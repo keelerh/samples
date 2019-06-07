@@ -25,6 +25,7 @@ import java.util.*
 object CreateGameFlow {
     @InitiatingFlow
     @StartableByRPC
+    @StartableByService
     class Dealer(private val players: List<Party>) : FlowLogic<SignedTransaction>() {
         override val progressTracker = tracker()
 
