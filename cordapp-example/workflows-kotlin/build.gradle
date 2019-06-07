@@ -17,6 +17,9 @@ cordapp {
         licence "Apache License, Version 2.0"
         versionId 1
     }
+    signing {
+        enabled false
+    }
 }
 
 sourceSets {
@@ -35,6 +38,10 @@ sourceSets {
 }
 
 configurations {
+    pigtailDrivers {
+        transitive = false
+    }
+
     integrationTestImplementation.extendsFrom testImplementation
     integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
 }
@@ -53,8 +60,16 @@ dependencies {
     testImplementation "$corda_release_group:corda-node-driver:$corda_release_version"
     runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:$log4j_version"
 
+    cordaRuntime "org.slf4j:slf4j-simple:$slf4j_version"
+
+    pigtailDrivers "javax.validation:validation-api:1.1.0.Final"
+
     // CorDapp dependencies.
     cordapp project(":contracts-kotlin")
+
+    compile("io.bluebank.braid:braid-corda:3.3.1") {
+        exclude group: 'javax.validation', module: 'validation-api'
+    }
 }
 
 task integrationTest(type: Test, dependsOn: []) {
@@ -91,15 +106,22 @@ task deployNodes(type: Cordform, dependsOn: ['jar']) {
     node {
         name "O=Dealer,L=London,C=GB"
         p2pPort 10004
+        projectCordapp {
+            config "braidPort = 20005"
+        }
         rpcSettings {
             address("localhost:10005")
             adminAddress("localhost:10006")
         }
         rpcUsers = [[user: "user1", "password": "test", "permissions": ["ALL"]]]
+        h2Port 20004
     }
     node {
         name "O=PlayerA,L=New York,C=US"
         p2pPort 10008
+        projectCordapp {
+            config "braidPort = 20009"
+        }
         rpcSettings {
             address("localhost:10009")
             adminAddress("localhost:10010")
@@ -109,10 +131,14 @@ task deployNodes(type: Cordform, dependsOn: ['jar']) {
     node {
         name "O=PlayerB,L=Paris,C=FR"
         p2pPort 10012
+        projectCordapp {
+            config "braidPort = 20013"
+        }
         rpcSettings {
             address("localhost:10013")
             adminAddress("localhost:10014")
         }
         rpcUsers = [[user: "user1", "password": "test", "permissions": ["ALL"]]]
+        h2Port 20012
     }
 }
