@@ -7,7 +7,6 @@ import com.example.flow.DealFlow.Player
 import com.example.flow.helpers.ProgressTracker
 import com.example.flow.helpers.ProgressTracker.tracker
 import com.example.state.Card
-import com.example.state.Position
 import com.example.state.CardState
 import net.corda.core.contracts.Command
 import net.corda.core.contracts.requireThat
