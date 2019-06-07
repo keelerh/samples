@@ -22,7 +22,10 @@ app.get('/test', (req, res) => {
   console.log(util.inspect(braid))
   console.log(util.inspect(req.body))
 
-  braid.flows.TestFlow()
+  const cards = [{suit:"SPKIKE", rank: "ACE"}];
+
+  braid.flows.TestFlow(cards, partyName)
+
     .then(result => res.send("Hey, you're speaking to " + result + "!"))
     .catch(err => res.status(500).send(err));    
 });

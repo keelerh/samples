@@ -27,6 +27,7 @@ import net.corda.core.transactions.TransactionBuilder
 object DealFlow {
     @InitiatingFlow
     @StartableByRPC
+    @StartableByService
     class Dealer(private val cards: List<Card>,
                  private val players: List<Party>,
                  private val gameId: Int) : FlowLogic<List<SignedTransaction>>() {

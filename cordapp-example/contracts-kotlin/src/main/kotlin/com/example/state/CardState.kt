@@ -34,3 +34,21 @@ data class Card(val suit: Suit, val rank: Rank) {
         return "Card: $rank of $suit"
     }
 }
+
+@CordaSerializable
+data class Position(
+        val accountServicer: String,
+        val accountOwner: String,
+        val clientCode: String,
+        val safekeepingAccount: String,
+        val safekeepingAccountType: String,
+        val fundCode: String,
+        val beneficialOwnerId: String,
+        val securityId: String,
+        val pendingQuantity: Int,
+        val settledQuantity: Int,
+        val positionInceptionDate: String) {
+    fun isValid(): Boolean {
+        return true
+    }
+}

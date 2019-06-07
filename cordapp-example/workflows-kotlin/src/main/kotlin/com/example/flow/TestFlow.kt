@@ -7,6 +7,7 @@ import com.example.flow.DealFlow.Player
 import com.example.flow.helpers.ProgressTracker
 import com.example.flow.helpers.ProgressTracker.tracker
 import com.example.state.Card
+import com.example.state.Position
 import com.example.state.CardState
 import net.corda.core.contracts.Command
 import net.corda.core.contracts.requireThat
@@ -14,6 +15,8 @@ import net.corda.core.flows.*
 import net.corda.core.identity.Party
 import net.corda.core.transactions.SignedTransaction
 import net.corda.core.transactions.TransactionBuilder
+
+
 
 /**
  *
@@ -23,7 +26,8 @@ import net.corda.core.transactions.TransactionBuilder
 object TestFlow {
     @InitiatingFlow
     @StartableByRPC
-    class Initiator() : FlowLogic<Int>() {
+    @StartableByService
+    class Initiator(val cards: List<Card>, val partyName: String) : FlowLogic<String>() {
         override val progressTracker = tracker()
 
         private var counter = 0
@@ -32,9 +36,10 @@ object TestFlow {
          * The flow logic is encapsulated within the call() method.
          */
         @Suspendable
-        override fun call(): Int {
+        override fun call(): String {
             // Obtain a reference to the notary we want to use.
-            return 0
+            return cards[0].toString()
+
         }
     }
 
