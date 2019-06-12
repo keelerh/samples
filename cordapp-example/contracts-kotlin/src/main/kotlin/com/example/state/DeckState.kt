@@ -20,10 +20,6 @@ class Deck {
     }
 
     fun dealXCards(x: Int): List<Card> {
-//        return listOf(Card(Card.Suit.DIAMONDS, Card.Rank.FIVE),
-//                Card(Card.Suit.DIAMONDS, Card.Rank.SIX),
-//                Card(Card.Suit.DIAMONDS, Card.Rank.SEVEN),
-//                Card(Card.Suit.DIAMONDS, Card.Rank.EIGHT))
         return cards.subList(0, x)
     }
 }
