@@ -8,6 +8,7 @@ import com.example.flow.helpers.ProgressTracker
 import com.example.flow.helpers.ProgressTracker.tracker
 import com.example.state.Card
 import com.example.state.CardState
+import com.example.state.Deck
 import net.corda.core.contracts.Command
 import net.corda.core.contracts.requireThat
 import net.corda.core.flows.*
@@ -45,7 +46,7 @@ object DealFlow {
             val txs = mutableListOf<SignedTransaction>()
 
             for (player in players) {
-                // Dealing two cards to each player.
+                // Dealing two deck to each player.
                 for (i in 0..1) {
                     // Stage 1.
                     progressTracker.currentStep = ProgressTracker.GENERATING_TRANSACTION

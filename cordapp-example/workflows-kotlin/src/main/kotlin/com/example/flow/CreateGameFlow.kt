@@ -6,6 +6,7 @@ import com.example.flow.CreateGameFlow.Player
 import com.example.flow.CreateGameFlow.Dealer
 import com.example.flow.helpers.ProgressTracker
 import com.example.flow.helpers.ProgressTracker.tracker
+import com.example.state.Deck
 import com.example.state.GameState
 import net.corda.core.contracts.Command
 import net.corda.core.contracts.requireThat

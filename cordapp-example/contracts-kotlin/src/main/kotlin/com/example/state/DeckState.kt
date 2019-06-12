@@ -1,5 +1,9 @@
 package com.example.state
 
+import com.google.common.collect.ImmutableList
+import net.corda.core.serialization.CordaSerializable
+
+@CordaSerializable
 class Deck {
     var cards: MutableList<Card> = mutableListOf()
 
@@ -11,10 +15,15 @@ class Deck {
 
     fun shuffle() = cards.shuffle()
 
-    fun dealOneCard(): Card? {
-        return if (cards.isNotEmpty())
-            cards.removeAt(0)
-        else
-            null
+    fun dealOneCard(): Card {
+        return cards.removeAt(0)
+    }
+
+    fun dealXCards(x: Int): List<Card> {
+//        return listOf(Card(Card.Suit.DIAMONDS, Card.Rank.FIVE),
+//                Card(Card.Suit.DIAMONDS, Card.Rank.SIX),
+//                Card(Card.Suit.DIAMONDS, Card.Rank.SEVEN),
+//                Card(Card.Suit.DIAMONDS, Card.Rank.EIGHT))
+        return cards.subList(0, x)
     }
 }

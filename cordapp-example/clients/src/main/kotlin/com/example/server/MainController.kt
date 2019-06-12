@@ -3,6 +3,7 @@ package com.example.server
 import com.example.flow.DealFlow.Dealer
 import com.example.state.Card
 import com.example.state.CardState
+import com.example.state.Deck
 import net.corda.core.contracts.StateAndRef
 import net.corda.core.identity.CordaX500Name
 import net.corda.core.messaging.startTrackedFlow
@@ -99,7 +100,7 @@ class MainController(rpc: NodeRPCConnection) {
 
         return try {
             val signedTxs = proxy.startTrackedFlow(
-                    ::Dealer, listOf(Card(Card.Suit.valueOf(cardSuit), Card.Rank.valueOf(cardRank))), listOf(player), gameId)
+                    ::Dealer, listOf(), listOf(player), gameId)
                     .returnValue.getOrThrow()
             ResponseEntity.status(HttpStatus.CREATED).body(
                     "Transaction id ${signedTxs[0].id} committed to ledger.\n")
