@@ -16,12 +16,24 @@
       <module name="com.example.workflows-kotlin.integrationTest" target="1.8" />
       <module name="com.example.workflows-kotlin.main" target="1.8" />
       <module name="com.example.workflows-kotlin.test" target="1.8" />
+      <module name="contracts-java_main" target="1.8" />
+      <module name="contracts-java_test" target="1.8" />
+      <module name="contracts-kotlin_main" target="1.8" />
+      <module name="contracts-kotlin_test" target="1.8" />
+      <module name="cordapp-example_main" target="1.8" />
+      <module name="cordapp-example_test" target="1.8" />
       <module name="java-source_integrationTest" target="1.8" />
       <module name="java-source_main" target="1.8" />
       <module name="java-source_test" target="1.8" />
       <module name="kotlin-source_integrationTest" target="1.8" />
       <module name="kotlin-source_main" target="1.8" />
       <module name="kotlin-source_test" target="1.8" />
+      <module name="workflows-java_integrationTest" target="1.8" />
+      <module name="workflows-java_main" target="1.8" />
+      <module name="workflows-java_test" target="1.8" />
+      <module name="workflows-kotlin_integrationTest" target="1.8" />
+      <module name="workflows-kotlin_main" target="1.8" />
+      <module name="workflows-kotlin_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

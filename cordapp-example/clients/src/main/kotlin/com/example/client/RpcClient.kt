@@ -3,7 +3,6 @@ package com.example.client
 import net.corda.client.rpc.CordaRPCClient
 import net.corda.client.rpc.CordaRPCConnection
 import net.corda.client.rpc.RPCException
-import net.corda.core.node.services.vault.AttachmentQueryCriteria
 import net.corda.core.utilities.NetworkHostAndPort
 import net.corda.core.utilities.contextLogger
 import net.corda.core.utilities.seconds
@@ -29,24 +28,6 @@ class RpcClient(config: RpcClientConfig) {
         return partyToConnection.getValue(party)
     }
 
-    fun uploadAttachmentsToAllNodes() {
-        // The attachments cannot simply be opened here, as the first node the attachment is uploaded to will close it.
-        // Instead, create a mapping of attachment ids to a connection that can be used to open it.
-        val attachmentLocations = connections.flatMap { connection ->
-            val ids = connection.proxy.queryAttachments(AttachmentQueryCriteria.AttachmentsQueryCriteria(), null)
-            ids.map { Pair(it, connection) }
-        }.toMap()
-
-        connections.forEach { connection ->
-            attachmentLocations.forEach { (id, conn) ->
-                if (!connection.proxy.attachmentExists(id)) {
-                    val attachment = conn.proxy.openAttachment(id)
-                    connection.proxy.uploadAttachment(attachment)
-                }
-            }
-        }
-    }
-
     fun closeAllConnections() {
         connections.forEach {
             try {
@@ -55,18 +36,6 @@ class RpcClient(config: RpcClientConfig) {
                 log.warn("An error occurred while closing the connection: ${e.message}", e)
             }
         }
-    }
-
-    fun stopNodes() {
-        connections.forEach {
-            try {
-                it.proxy.shutdown()
-                it.close()
-            } catch (e: Exception) {
-                log.warn("An error occurred while shutting down a node: ${e.message}", e)
-            }
-        }
-        partyToConnection.clear()
     }
 
     private fun establishConnectionWithRetry(nodeAddress: NetworkHostAndPort): CordaRPCConnection {

@@ -1,20 +1,26 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Run Contract Tests - Kotlin" type="JUnit" factoryName="JUnit">
-    <module name="com.example.workflows-kotlin.test" />
+    <module name="contracts-kotlin_test" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.example.contract.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+    <option name="ALTERNATIVE_JRE_PATH" />
     <option name="PACKAGE_NAME" value="com.example.test.contract" />
-    <option name="MAIN_CLASS_NAME" value="com.example.test.contract.IOUContractTests" />
+    <option name="MAIN_CLASS_NAME" value="com.example.test.contract.CardContractTests" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="class" />
+    <option name="VM_PARAMETERS" value="-ea -javaagent:../lib/quasar.jar" />
     <option name="PARAMETERS" value="" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/workflows-kotlin" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
+    <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/contracts-kotlin" />
+    <option name="PASS_PARENT_ENVS" value="true" />
+    <option name="TEST_SEARCH_SCOPE">
+      <value defaultName="singleModule" />
+    </option>
+    <patterns />
+    <method />
   </configuration>
 </component>
