@@ -83,6 +83,7 @@ task deployNodes(type: Cordform, dependsOn: ['jar']) {
             address("localhost:20001")
             adminAddress("localhost:20002")
         }
+        rpcUsers = [[user: "user1", "password": "test", "permissions": ["ALL"]]]
         projectCordapp {
             deploy = false
         }
